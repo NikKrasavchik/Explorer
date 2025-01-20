@@ -80,6 +80,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Recources\RecourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -113,6 +117,17 @@
       <Project>{6e6c9c3a-bd49-4c80-9641-ac3a07315b91}</Project>
       <Name>libraryExplorer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Recources\excelfile.png" />
+    <Resource Include="Recources\file.png" />
+    <Resource Include="Recources\folder.png" />
+    <Resource Include="Recources\imagefile.png" />
+    <Resource Include="Recources\pdffile.png" />
+    <Resource Include="Recources\powerpointfile.png" />
+    <Resource Include="Recources\textfile.png" />
+    <Resource Include="Recources\wordfile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

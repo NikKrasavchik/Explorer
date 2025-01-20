@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <BitmapImage x:Key="FolderIcon" UriSource="pack://application:,,,/wpfExplorer;component/Resources/folder.png" />
+    <BitmapImage x:Key="TextFileIcon" UriSource="pack://application:,,,/wpfExplorer;component/Resources/textfile.png" />
+    <BitmapImage x:Key="ImageFileIcon" UriSource="pack://application:,,,/wpfExplorer;component/Resources/imagefile.png" />
+    <BitmapImage x:Key="PdfFileIcon" UriSource="pack://application:,,,/wpfExplorer;component/Resources/pdffile.png" />
+    <BitmapImage x:Key="WordFileIcon" UriSource="pack://application:,,,/wpfExplorer;component/Resources/wordfile.png" />
+    <BitmapImage x:Key="ExcelFileIcon" UriSource="pack://application:,,,/wpfExplorer;component/Resources/excelfile.png" />
+    <BitmapImage x:Key="PowerPointFileIcon" UriSource="pack://application:,,,/wpfExplorer;component/Resources/powerpointfile.png" />
+    <BitmapImage x:Key="DefaultFileIcon" UriSource="pack://application:,,,/wpfExplorer;component/Resources/file.png" />
+</ResourceDictionary>
