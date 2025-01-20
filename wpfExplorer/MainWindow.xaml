@@ -7,63 +7,76 @@
         mc:Ignorable="d"
         Title="Explorer" Height="450" Width="800"
         KeyDown="Window_KeyDown"
-        Background="#1E1E1E">
+        Background="{DynamicResource Background}">
     <Window.Resources>
+        <SolidColorBrush x:Key="Background" Color="#1E1E1E"/>
+        <SolidColorBrush x:Key="Foreground" Color="White"/>
+        <SolidColorBrush x:Key="ButtonBackground" Color="#333333"/>
+        <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+        <SolidColorBrush x:Key="ButtonBorderBrush" Color="#555555"/>
+        <SolidColorBrush x:Key="WrapPanelBackground" Color="#2D2D30"/>
+        <SolidColorBrush x:Key="DataGridBackground" Color="#252526"/>
+        <SolidColorBrush x:Key="DataGridForeground" Color="White"/>
+        <SolidColorBrush x:Key="DataGridBorderBrush" Color="#333333"/>
+        <SolidColorBrush x:Key="DataGridRowBackground" Color="#252526"/>
+        <SolidColorBrush x:Key="DataGridRowForeground" Color="White"/>
+        <SolidColorBrush x:Key="DataGridRowBorderBrush" Color="#333333"/>
+        <SolidColorBrush x:Key="DataGridCellBackground" Color="#252526"/>
+        <SolidColorBrush x:Key="DataGridCellForeground" Color="White"/>
+        <SolidColorBrush x:Key="DataGridCellBorderBrush" Color="#333333"/>
+        <SolidColorBrush x:Key="DataGridColumnHeaderBackground" Color="#333333"/>
+        <SolidColorBrush x:Key="DataGridColumnHeaderForeground" Color="White"/>
+        <SolidColorBrush x:Key="DataGridColumnHeaderBorderBrush" Color="#555555"/>
         <Style TargetType="Button">
-            <Setter Property="Background" Value="#333333"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#555555"/>
+            <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
         <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="{DynamicResource Foreground}"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
         <Style TargetType="DataGrid">
-            <Setter Property="Background" Value="#252526"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#333333"/>
+            <Setter Property="Background" Value="{DynamicResource DataGridBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource DataGridForeground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource DataGridBorderBrush}"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
         <Style TargetType="DataGridRow">
-            <Setter Property="Background" Value="#252526"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#333333"/>
+            <Setter Property="Background" Value="{DynamicResource DataGridRowBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource DataGridRowForeground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource DataGridRowBorderBrush}"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="Background" Value="{DynamicResource DataGridCellBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource DataGridCellForeground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource DataGridCellBorderBrush}"/>
+        </Style>
         <Style TargetType="DataGridColumnHeader">
-            <Setter Property="Background" Value="#333333"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#555555"/>
+            <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource DataGridColumnHeaderForeground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource DataGridColumnHeaderBorderBrush}"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
         <local:FileTypeToIconConverter x:Key="FileTypeToIconConverter"/>
     </Window.Resources>
-    <Grid Name="MainGrid" Margin="5">
+    <Grid Name="MainGrid" Margin="5" Background="{DynamicResource Background}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <!--<WrapPanel Name="Menu" Grid.Row="0" Background="#2D2D30" Margin="5">
-            <Button Name="SelectionFilesButton">Выделение</Button>
-            <Button Name="CommandsFilesButton">Команды</Button>
-            <Button Name="NetFilesButton">Сеть</Button>
-            <Button Name="TabsFilesButton">Вкладки</Button>
-            <Button Name="FavoritesFilesButton">Избранное</Button>
-            <Button Name="ViewFilesButton">Вид</Button>
-            <Button Name="SettingsFilesButton">Настройки</Button>
-            <Button Name="HelpFilesButton">Помощь</Button>
-        </WrapPanel>-->
-        <WrapPanel Name="Interactions" Grid.Row="1" Background="#2D2D30" Margin="5">
-            <Button Name="RefreshInteractionsButton" Click="RefreshInteractionsButton_Click" ClickMode="Press">Refresh</Button>
-            <Button Name="RemoveInteractionsButton" Click="RemoveInteractionsButton_Click" ClickMode="Press">Remove</Button>
-            <Button Name="UpInteractionsButton" Click="UpInteractionsButton_Click" ClickMode="Press">Up</Button>
+        <WrapPanel Name="Interactions" Grid.Row="1" Background="{DynamicResource WrapPanelBackground}" Margin="5">
+            <Button Name="RefreshInteractionsButton" Click="RefreshInteractionsButton_Click" ClickMode="Press" Background="{DynamicResource Background}" Foreground="{DynamicResource Foreground}">Refresh</Button>
+            <Button Name="RemoveInteractionsButton" Click="RemoveInteractionsButton_Click" ClickMode="Press" Background="{DynamicResource Background}" Foreground="{DynamicResource Foreground}">Remove</Button>
+            <Button Name="UpInteractionsButton" Click="UpInteractionsButton_Click" ClickMode="Press" Background="{DynamicResource Background}" Foreground="{DynamicResource Foreground}">Up</Button>
+            <Button Name="ThemeInteractionsButton" Click="ThemeInteractionsButton_Click" ClickMode="Press" Background="{DynamicResource Background}" Foreground="{DynamicResource Foreground}">Theme</Button>
         </WrapPanel>
-        <Grid Grid.Row="2" Name="Tables" Background="#1E1E1E" Margin="5">
+        <Grid Grid.Row="2" Name="Tables" Background="{DynamicResource WrapPanelBackground}" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -74,12 +87,12 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
 
-            <WrapPanel Name="LeftTableDisks" Grid.Column="0" Grid.Row="0" Margin="5"></WrapPanel>
+            <WrapPanel Name="LeftTableDisks" Grid.Column="0" Grid.Row="0" Margin="5" ></WrapPanel>
             <WrapPanel Name="RightTableDisks" Grid.Column="1" Grid.Row="0" Margin="5"></WrapPanel>
-            <TextBlock Name="LeftTablePath" Grid.Column="0" Grid.Row="1" Margin="5">Path</TextBlock>
-            <TextBlock Name="RightTablePath" Grid.Column="1" Grid.Row="1" Margin="5">Path</TextBlock>
+            <TextBlock Name="LeftTablePath" Grid.Column="0" Grid.Row="1" Foreground="{DynamicResource Foreground}" Margin="5">Path</TextBlock>
+            <TextBlock Name="RightTablePath" Grid.Column="1" Grid.Row="1" Foreground="{DynamicResource Foreground}" Margin="5">Path</TextBlock>
 
-            <DataGrid Name="LeftTable" Grid.Column="0" Grid.Row="2" AutoGenerateColumns="False" CanUserAddRows="False" Margin="5">
+            <DataGrid Name="LeftTable" Grid.Column="0" Grid.Row="2" AutoGenerateColumns="False" CanUserAddRows="False" Background="{DynamicResource WrapPanelBackground}" Margin="5">
                 <DataGrid.Resources>
                     <Style TargetType="DataGridRow">
                         <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
@@ -99,9 +112,10 @@
                     <DataGridTextColumn Binding="{Binding type, UpdateSourceTrigger=PropertyChanged}" Header="type"/>
                     <DataGridTextColumn Binding="{Binding dateCreated, UpdateSourceTrigger=PropertyChanged}" Header="dateCreated"/>
                     <DataGridTextColumn Binding="{Binding dateLastWrite, UpdateSourceTrigger=PropertyChanged}" Header="dateLastWrite"/>
+                    <DataGridTextColumn Binding="{Binding size, UpdateSourceTrigger=PropertyChanged}" Header="size"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Name="RightTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="False" CanUserAddRows="False" Margin="5">
+            <DataGrid Name="RightTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="False" CanUserAddRows="False" Background="{DynamicResource WrapPanelBackground}" Margin="5">
                 <DataGrid.Resources>
                     <Style TargetType="DataGridRow">
                         <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
@@ -121,10 +135,11 @@
                     <DataGridTextColumn Binding="{Binding type, UpdateSourceTrigger=PropertyChanged}" Header="type"/>
                     <DataGridTextColumn Binding="{Binding dateCreated, UpdateSourceTrigger=PropertyChanged}" Header="dateCreated"/>
                     <DataGridTextColumn Binding="{Binding dateLastWrite, UpdateSourceTrigger=PropertyChanged}" Header="dateLastWrite"/>
+                    <DataGridTextColumn Binding="{Binding size, UpdateSourceTrigger=PropertyChanged}" Header="size"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Grid Name="Footer" Grid.Row="3" Background="#2D2D30" Margin="5">
+        <Grid Name="Footer" Grid.Row="3"  Background="{DynamicResource WrapPanelBackground}" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -134,13 +149,13 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBlock HorizontalAlignment="Center" Grid.Column="0" Margin="5">View F4</TextBlock>
-            <TextBlock HorizontalAlignment="Center" Grid.Column="1" Margin="5">Copy F5</TextBlock>
-            <TextBlock HorizontalAlignment="Center" Grid.Column="2" Margin="5">Paste F6</TextBlock>
-            <TextBlock HorizontalAlignment="Center" Grid.Column="3" Margin="5">MakeDir F7</TextBlock>
-            <TextBlock HorizontalAlignment="Center" Grid.Column="4" Margin="5">Delete F8</TextBlock>
-            <TextBlock HorizontalAlignment="Center" Grid.Column="5" Margin="5">Terminal F9</TextBlock>
-            <TextBlock HorizontalAlignment="Center" Grid.Column="6" Margin="5">Exit F10</TextBlock>
+            <TextBlock HorizontalAlignment="Center" Grid.Column="0" Foreground="{DynamicResource Foreground}" Margin="5">View F4</TextBlock>
+            <TextBlock HorizontalAlignment="Center" Grid.Column="1" Foreground="{DynamicResource Foreground}" Margin="5">Copy F5</TextBlock>
+            <TextBlock HorizontalAlignment="Center" Grid.Column="2" Foreground="{DynamicResource Foreground}" Margin="5">Paste F6</TextBlock>
+            <TextBlock HorizontalAlignment="Center" Grid.Column="3" Foreground="{DynamicResource Foreground}" Margin="5">MakeDir F7</TextBlock>
+            <TextBlock HorizontalAlignment="Center" Grid.Column="4" Foreground="{DynamicResource Foreground}" Margin="5">Delete F8</TextBlock>
+            <TextBlock HorizontalAlignment="Center" Grid.Column="5" Foreground="{DynamicResource Foreground}" Margin="5">Terminal F9</TextBlock>
+            <TextBlock HorizontalAlignment="Center" Grid.Column="6" Foreground="{DynamicResource Foreground}" Margin="5">Exit F10</TextBlock>
         </Grid>
     </Grid>
 </Window>

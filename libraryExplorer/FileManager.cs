@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
+using System.Windows.Data;
+using System.Globalization;
 
 
 namespace libraryExplorer
@@ -21,6 +23,24 @@ namespace libraryExplorer
             this.type = file.type;
             this.dateCreated = file.dateCreated.ToString();
             this.dateLastWrite = file.dateLastWrite.ToString();
+            this.size = convertSize(file.size);
+        }
+
+        public void setSize(long size)
+        {
+            this.size = convertSize(size);
+        }
+
+        public string convertSize(long size)
+        {
+            if (size < 1024)
+                return size + " B";
+            else if (size < 1024 * 1024)
+                return (size / 1024.0).ToString("F2") + " KB";
+            else if (size < 1024 * 1024 * 1024)
+                return (size / (1024.0 * 1024)).ToString("F2") + " MB";
+            else
+                return (size / (1024.0 * 1024 * 1024)).ToString("F2") + " GB";
         }
 
         public ComplexData(DirectoryClass dir)
@@ -33,6 +53,7 @@ namespace libraryExplorer
         public string type { get; set; }
         public string dateCreated { get; set; }
         public string dateLastWrite { get; set; }
+        public string size { get; set; }
     }
 
     public class TableData
@@ -116,12 +137,14 @@ namespace libraryExplorer
             FileInfo fileInfo = new FileInfo(fullFilename);
             this.dateCreated = fileInfo.CreationTime;
             this.dateLastWrite = fileInfo.LastWriteTime;
+            this.size = (int)fileInfo.Length;
         }
 
         public string name { get; set; }
         public string type { get; set; }
         public DateTime dateCreated { get; set; }
         public DateTime dateLastWrite { get; set; }
+        public long size { get; set; }
     }
 
     public class DirectoryClass

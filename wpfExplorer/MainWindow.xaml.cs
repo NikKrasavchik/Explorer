@@ -8,11 +8,14 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace wpfExplorer
 {
     public partial class MainWindow : Window
     {
+        private bool isDarkTheme = true;
         public MainWindow()
         {
             InitializeComponent();
@@ -22,6 +25,8 @@ namespace wpfExplorer
 
             initTable(LeftTable, @"C:\");
             initTable(RightTable, @"C:\");
+
+            ToggleTheme();
         }
 
         public void initTable(DataGrid table, string path)
@@ -234,6 +239,79 @@ namespace wpfExplorer
             var leftSelect = LeftTable.SelectedItem;
             var rightSelect = RightTable.SelectedItem;
 
+            if (e.Key == Key.Space)
+            {
+                if (leftSelect != null)
+                {
+                    ComplexData selectedData = leftSelect as ComplexData;
+                    if (selectedData.type == null) // Если это папка
+                    {
+                        string folderPath = LeftTablePath.Text + selectedData.name + "\\";
+                        long folderSize = CalculateDirectorySize(folderPath);
+
+                        List<ComplexData> complexData = new List<ComplexData>();
+                        TableData tableData = new TableData();
+                        bool isError = tableData.determineFiles(LeftTablePath.Text);
+
+                        if (!isError)
+                        {
+                            if (LeftTablePath.Text[LeftTablePath.Text.LastIndexOf('\\') - 1] != ':')
+                                complexData.Add(new ComplexData());
+                            for (int i = 0; i < tableData.getDirCount(); i++)
+                            {
+                                complexData.Add(new ComplexData(tableData.getDir(i)));
+                                if (tableData.getDir(i).name == selectedData.name)
+                                    complexData[complexData.Count - 1].setSize(folderSize);
+                            }
+                            for (int i = 0; i < tableData.getFileCount(); i++)
+                                complexData.Add(new ComplexData(tableData.getFile(i)));
+
+                            LeftTable.ItemsSource = complexData;
+
+                            if (LeftTable.Name[0] == 'L')
+                                LeftTablePath.Text = LeftTablePath.Text;
+                            else
+                                RightTablePath.Text = LeftTablePath.Text;
+                        }
+                    }
+                }
+                else if (rightSelect != null)
+                {
+                    ComplexData selectedData = rightSelect as ComplexData;
+                    if (selectedData.type == null) // Если это папка
+                    {
+                        string folderPath = RightTablePath.Text + selectedData.name + "\\";
+                        long folderSize = CalculateDirectorySize(folderPath);
+
+                        List<ComplexData> complexData = new List<ComplexData>();
+                        TableData tableData = new TableData();
+                        bool isError = tableData.determineFiles(RightTablePath.Text);
+
+                        if (!isError)
+                        {
+                            if (RightTablePath.Text[RightTablePath.Text.LastIndexOf('\\') - 1] != ':')
+                                complexData.Add(new ComplexData());
+                            for (int i = 0; i < tableData.getDirCount(); i++)
+                            {
+                                complexData.Add(new ComplexData(tableData.getDir(i)));
+                                if (tableData.getDir(i).name == selectedData.name)
+                                    complexData[complexData.Count - 1].setSize(folderSize);
+                            }
+                            for (int i = 0; i < tableData.getFileCount(); i++)
+                                complexData.Add(new ComplexData(tableData.getFile(i)));
+
+                            RightTable.ItemsSource = complexData;
+
+                            if (RightTable.Name[0] == 'L')
+                                RightTablePath.Text = RightTablePath.Text;
+                            else
+                                RightTablePath.Text = RightTablePath.Text;
+                        }
+                    }
+                }
+            }
+
+
             if (e.Key == Key.F4)
             {
                 if (leftSelect != null)
@@ -375,6 +453,94 @@ namespace wpfExplorer
             if (e.SystemKey == Key.F10)
                 Close();
         }
+        private long CalculateDirectorySize(string directoryPath)
+        {
+            long size = 0;
+            DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
+
+            // Суммируем размеры всех файлов в папке
+            foreach (FileInfo file in directoryInfo.GetFiles())
+            {
+                size += file.Length;
+            }
+
+            // Рекурсивно суммируем размеры файлов во всех подкаталогах
+            foreach (DirectoryInfo dir in directoryInfo.GetDirectories())
+            {
+                size += CalculateDirectorySize(dir.FullName);
+            }
+
+            return size;
+        }
+        private void ThemeInteractionsButton_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleTheme();
+        }
+        private void ToggleTheme()
+        {
+            if (isDarkTheme)
+            {
+                // Переключение на светлую тему
+                Application.Current.Resources["Background"] = new SolidColorBrush(Colors.White);
+                Application.Current.Resources["Foreground"] = new SolidColorBrush(Colors.Black);
+                Application.Current.Resources["ButtonBackground"] = new SolidColorBrush(Colors.LightGray);
+                Application.Current.Resources["ButtonForeground"] = new SolidColorBrush(Colors.Black);
+                Application.Current.Resources["ButtonBorderBrush"] = new SolidColorBrush(Colors.Gray);
+                Application.Current.Resources["WrapPanelBackground"] = new SolidColorBrush(Colors.LightGray);
+                Application.Current.Resources["DataGridBackground"] = new SolidColorBrush(Colors.White);
+                Application.Current.Resources["DataGridForeground"] = new SolidColorBrush(Colors.Black);
+                Application.Current.Resources["DataGridBorderBrush"] = new SolidColorBrush(Colors.Gray);
+                Application.Current.Resources["DataGridRowBackground"] = new SolidColorBrush(Colors.White);
+                Application.Current.Resources["DataGridRowForeground"] = new SolidColorBrush(Colors.Black);
+                Application.Current.Resources["DataGridRowBorderBrush"] = new SolidColorBrush(Colors.Gray);
+                Application.Current.Resources["DataGridCellBackground"] = new SolidColorBrush(Colors.White);
+                Application.Current.Resources["DataGridCellForeground"] = new SolidColorBrush(Colors.Black);
+                Application.Current.Resources["DataGridCellBorderBrush"] = new SolidColorBrush(Colors.Gray);
+                Application.Current.Resources["DataGridColumnHeaderBackground"] = new SolidColorBrush(Colors.LightGray);
+                Application.Current.Resources["DataGridColumnHeaderForeground"] = new SolidColorBrush(Colors.Black);
+                Application.Current.Resources["DataGridColumnHeaderBorderBrush"] = new SolidColorBrush(Colors.Gray);
+            }
+            else
+            {
+                // Переключение на тёмную тему
+                Application.Current.Resources["Background"] = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+                Application.Current.Resources["Foreground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                Application.Current.Resources["ButtonBackground"] = new SolidColorBrush(Color.FromRgb(51, 51, 51));
+                Application.Current.Resources["ButtonForeground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                Application.Current.Resources["ButtonBorderBrush"] = new SolidColorBrush(Color.FromRgb(85, 85, 85));
+                Application.Current.Resources["WrapPanelBackground"] = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+                Application.Current.Resources["DataGridBackground"] = new SolidColorBrush(Color.FromRgb(37, 37, 38));
+                Application.Current.Resources["DataGridForeground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                Application.Current.Resources["DataGridBorderBrush"] = new SolidColorBrush(Color.FromRgb(51, 51, 51));
+                Application.Current.Resources["DataGridRowBackground"] = new SolidColorBrush(Color.FromRgb(37, 37, 38));
+                Application.Current.Resources["DataGridRowForeground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                Application.Current.Resources["DataGridRowBorderBrush"] = new SolidColorBrush(Color.FromRgb(51, 51, 51));
+                Application.Current.Resources["DataGridCellBackground"] = new SolidColorBrush(Color.FromRgb(37, 37, 38));
+                Application.Current.Resources["DataGridCellForeground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                Application.Current.Resources["DataGridCellBorderBrush"] = new SolidColorBrush(Color.FromRgb(51, 51, 51));
+                Application.Current.Resources["DataGridColumnHeaderBackground"] = new SolidColorBrush(Color.FromRgb(51, 51, 51));
+                Application.Current.Resources["DataGridColumnHeaderForeground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                Application.Current.Resources["DataGridColumnHeaderBorderBrush"] = new SolidColorBrush(Color.FromRgb(85, 85, 85));
+            }
+
+            isDarkTheme = !isDarkTheme;
+            UpdateResources();
+        }
+
+        private void UpdateResources()
+        {
+            foreach (Window window in Application.Current.Windows)
+            {
+                window.Resources = Application.Current.Resources;
+                foreach (var child in LogicalTreeHelper.GetChildren(window))
+                {
+                    if (child is FrameworkElement frameworkElement)
+                    {
+                        frameworkElement.Resources = Application.Current.Resources;
+                    }
+                }
+            }
+        }
     }
 
     public class FileTypeToIconConverter : IValueConverter
@@ -425,6 +591,6 @@ namespace wpfExplorer
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
-        }
+        }        
     }
 }
