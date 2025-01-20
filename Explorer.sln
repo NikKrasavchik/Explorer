@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Recources", "Recources", "{
 		Resources\RecourceDictionary.xaml = Resources\RecourceDictionary.xaml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wfaExplorer", "wfaExplorer\wfaExplorer.csproj", "{38D3AD5E-52F7-48D4-9A23-0B0EB843DE1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{6E6C9C3A-BD49-4C80-9641-AC3A07315B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E6C9C3A-BD49-4C80-9641-AC3A07315B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E6C9C3A-BD49-4C80-9641-AC3A07315B91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38D3AD5E-52F7-48D4-9A23-0B0EB843DE1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38D3AD5E-52F7-48D4-9A23-0B0EB843DE1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38D3AD5E-52F7-48D4-9A23-0B0EB843DE1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38D3AD5E-52F7-48D4-9A23-0B0EB843DE1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
