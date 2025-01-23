@@ -27,6 +27,7 @@ namespace wpfExplorer
             initTable(RightTable, @"C:\");
 
             ToggleTheme();
+            ToggleTheme();
         }
 
         public void initTable(DataGrid table, string path)
@@ -78,10 +79,11 @@ namespace wpfExplorer
                 initTable(RightTable, senderName);
         }
 
-        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            DataGridRow row = sender as DataGridRow;
-            ComplexData rowData = row.Item as ComplexData;
+            DataGrid dataGrid = sender as DataGrid;
+            ComplexData rowData = dataGrid.Items[dataGrid.SelectedIndex] as ComplexData;
+           
 
             var leftSelect = LeftTable.SelectedItem;
             var rightSelect = RightTable.SelectedItem;
@@ -262,6 +264,12 @@ namespace wpfExplorer
                                 complexData.Add(new ComplexData(tableData.getDir(i)));
                                 if (tableData.getDir(i).name == selectedData.name)
                                     complexData[complexData.Count - 1].setSize(folderSize);
+                                else
+                                {
+                                    var t = (LeftTable.Items[complexData.Count - 1] as ComplexData).getSize();
+                                    var n = (LeftTable.Items[complexData.Count - 1] as ComplexData).name;
+                                    complexData[complexData.Count - 1].setSize(t);
+                                }
                             }
                             for (int i = 0; i < tableData.getFileCount(); i++)
                                 complexData.Add(new ComplexData(tableData.getFile(i)));
@@ -277,6 +285,7 @@ namespace wpfExplorer
                 }
                 else if (rightSelect != null)
                 {
+                    var items = RightTable.Items;
                     ComplexData selectedData = rightSelect as ComplexData;
                     if (selectedData.type == null) // Если это папка
                     {
@@ -296,6 +305,12 @@ namespace wpfExplorer
                                 complexData.Add(new ComplexData(tableData.getDir(i)));
                                 if (tableData.getDir(i).name == selectedData.name)
                                     complexData[complexData.Count - 1].setSize(folderSize);
+                                else
+                                {
+                                    var t = (RightTable.Items[i] as ComplexData).getSize();
+                                    var n = (RightTable.Items[i] as ComplexData).name;
+                                    complexData[complexData.Count - 1].setSize(t);
+                                }
                             }
                             for (int i = 0; i < tableData.getFileCount(); i++)
                                 complexData.Add(new ComplexData(tableData.getFile(i)));
@@ -459,15 +474,28 @@ namespace wpfExplorer
             DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
 
             // Суммируем размеры всех файлов в папке
-            foreach (FileInfo file in directoryInfo.GetFiles())
+            try
             {
-                size += file.Length;
+                foreach (FileInfo file in directoryInfo.GetFiles())
+                {
+                    size += file.Length;
+                }
+                foreach (DirectoryInfo dir in directoryInfo.GetDirectories())
+                {
+                    var dirSize = CalculateDirectorySize(dir.FullName);
+                    if (dirSize == 0)
+                        break;
+                    size += dirSize;
+                }
             }
-
-            // Рекурсивно суммируем размеры файлов во всех подкаталогах
-            foreach (DirectoryInfo dir in directoryInfo.GetDirectories())
+            catch (Exception ex)
             {
-                size += CalculateDirectorySize(dir.FullName);
+                string messageBoxText = "Error while finding file size";
+                string caption = "Error";
+                MessageBoxButton button = MessageBoxButton.YesNoCancel;
+                MessageBoxImage icon = MessageBoxImage.Warning;
+
+                MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.Yes);
             }
 
             return size;
@@ -499,6 +527,32 @@ namespace wpfExplorer
                 Application.Current.Resources["DataGridColumnHeaderBackground"] = new SolidColorBrush(Colors.LightGray);
                 Application.Current.Resources["DataGridColumnHeaderForeground"] = new SolidColorBrush(Colors.Black);
                 Application.Current.Resources["DataGridColumnHeaderBorderBrush"] = new SolidColorBrush(Colors.Gray);
+
+                foreach (var child in LeftTableDisks.Children)
+                {
+                    if (child is Button button)
+                    {
+                        button.Background = new SolidColorBrush(Colors.LightGray);
+                        button.Foreground = new SolidColorBrush(Colors.Black);
+                        button.BorderBrush = new SolidColorBrush(Colors.Gray);
+                    }
+                }
+                foreach (var child in RightTableDisks.Children)
+                {
+                    if (child is Button button)
+                    {
+                        button.Background = new SolidColorBrush(Colors.LightGray);
+                        button.Foreground = new SolidColorBrush(Colors.Black);
+                        button.BorderBrush = new SolidColorBrush(Colors.Gray);
+                    }
+                }
+
+                //LeftTable.ColumnHeaderStyle = Application.Current.Resources["DataGridColumnHeaderStyle"] as Style;
+                //LeftTable.Foreground = new SolidColorBrush(Colors.Black);
+                //LeftTable.RowBackground = new SolidColorBrush(Colors.White);
+                //RightTable.ColumnHeaderStyle = Application.Current.Resources["DataGridColumnHeaderStyle"] as Style;
+                //RightTable.Foreground = new SolidColorBrush(Colors.Black);
+                //RightTable.RowBackground = new SolidColorBrush(Colors.White);
             }
             else
             {
@@ -521,6 +575,32 @@ namespace wpfExplorer
                 Application.Current.Resources["DataGridColumnHeaderBackground"] = new SolidColorBrush(Color.FromRgb(51, 51, 51));
                 Application.Current.Resources["DataGridColumnHeaderForeground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
                 Application.Current.Resources["DataGridColumnHeaderBorderBrush"] = new SolidColorBrush(Color.FromRgb(85, 85, 85));
+
+                foreach (var child in LeftTableDisks.Children)
+                {
+                    if (child is Button button)
+                    {
+                        button.Background = new SolidColorBrush(Color.FromRgb(51, 51, 51));
+                        button.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                        button.BorderBrush = new SolidColorBrush(Color.FromRgb(85, 85, 85));
+                    }
+                }
+                foreach (var child in RightTableDisks.Children)
+                {
+                    if (child is Button button)
+                    {
+                        button.Background = new SolidColorBrush(Color.FromRgb(51, 51, 51));
+                        button.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                        button.BorderBrush = new SolidColorBrush(Color.FromRgb(85, 85, 85));
+                    }
+                }
+
+                //LeftTable.ColumnHeaderStyle = Application.Current.Resources["DataGridColumnHeaderStyle"] as Style;
+                //LeftTable.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                //LeftTable.RowBackground = new SolidColorBrush(Color.FromRgb(37, 37, 38));
+                //RightTable.ColumnHeaderStyle = Application.Current.Resources["DataGridColumnHeaderStyle"] as Style;
+                //RightTable.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                //RightTable.RowBackground = new SolidColorBrush(Color.FromRgb(37, 37, 38));
             }
 
             isDarkTheme = !isDarkTheme;

@@ -31,6 +31,14 @@ namespace libraryExplorer
             this.size = convertSize(size);
         }
 
+        public void setSize(string size)
+        {
+            this.size = size;
+        }
+
+        public string getSize()
+        { return this.size; }
+
         public string convertSize(long size)
         {
             if (size < 1024)

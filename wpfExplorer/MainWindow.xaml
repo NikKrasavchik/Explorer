@@ -16,17 +16,26 @@
         <SolidColorBrush x:Key="ButtonBorderBrush" Color="#555555"/>
         <SolidColorBrush x:Key="WrapPanelBackground" Color="#2D2D30"/>
         <SolidColorBrush x:Key="DataGridBackground" Color="#252526"/>
-        <SolidColorBrush x:Key="DataGridForeground" Color="White"/>
+        <SolidColorBrush x:Key="DataGridForeground" Color="Red"/>
         <SolidColorBrush x:Key="DataGridBorderBrush" Color="#333333"/>
         <SolidColorBrush x:Key="DataGridRowBackground" Color="#252526"/>
-        <SolidColorBrush x:Key="DataGridRowForeground" Color="White"/>
+        <SolidColorBrush x:Key="DataGridRowForeground" Color="Yellow"/>
         <SolidColorBrush x:Key="DataGridRowBorderBrush" Color="#333333"/>
         <SolidColorBrush x:Key="DataGridCellBackground" Color="#252526"/>
-        <SolidColorBrush x:Key="DataGridCellForeground" Color="White"/>
+        <SolidColorBrush x:Key="DataGridCellForeground" Color="Green"/>
         <SolidColorBrush x:Key="DataGridCellBorderBrush" Color="#333333"/>
         <SolidColorBrush x:Key="DataGridColumnHeaderBackground" Color="#333333"/>
         <SolidColorBrush x:Key="DataGridColumnHeaderForeground" Color="White"/>
         <SolidColorBrush x:Key="DataGridColumnHeaderBorderBrush" Color="#555555"/>
+        <SolidColorBrush x:Key="DataGridRowHoverBackground" Color="#3A3A3A"/>
+        <SolidColorBrush x:Key="DataGridRowSelectedBackground" Color="#555555"/>
+        <Style x:Key="DataGridCellStyle" TargetType="{x:Type DataGridCell}" >
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="Yellow"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style TargetType="Button">
             <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
             <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
@@ -47,6 +56,14 @@
             <Setter Property="Foreground" Value="{DynamicResource DataGridRowForeground}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource DataGridRowBorderBrush}"/>
             <Setter Property="Margin" Value="5"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource DataGridRowHoverBackground}"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource DataGridRowSelectedBackground}"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="DataGridCell">
             <Setter Property="Background" Value="{DynamicResource DataGridCellBackground}"/>
@@ -91,13 +108,8 @@
             <WrapPanel Name="RightTableDisks" Grid.Column="1" Grid.Row="0" Margin="5"></WrapPanel>
             <TextBlock Name="LeftTablePath" Grid.Column="0" Grid.Row="1" Foreground="{DynamicResource Foreground}" Margin="5">Path</TextBlock>
             <TextBlock Name="RightTablePath" Grid.Column="1" Grid.Row="1" Foreground="{DynamicResource Foreground}" Margin="5">Path</TextBlock>
-
-            <DataGrid Name="LeftTable" Grid.Column="0" Grid.Row="2" AutoGenerateColumns="False" CanUserAddRows="False" Background="{DynamicResource WrapPanelBackground}" Margin="5">
-                <DataGrid.Resources>
-                    <Style TargetType="DataGridRow">
-                        <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
-                    </Style>
-                </DataGrid.Resources>
+            <!--Background="{DynamicResource WrapPanelBackground}"-->
+            <DataGrid Name="LeftTable" Grid.Column="0" Grid.Row="2" AutoGenerateColumns="False" CanUserAddRows="False"  Margin="5" MouseDoubleClick="DataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="name">
                         <DataGridTemplateColumn.CellTemplate>
@@ -114,13 +126,8 @@
                     <DataGridTextColumn Binding="{Binding dateLastWrite, UpdateSourceTrigger=PropertyChanged}" Header="dateLastWrite"/>
                     <DataGridTextColumn Binding="{Binding size, UpdateSourceTrigger=PropertyChanged}" Header="size"/>
                 </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid Name="RightTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="False" CanUserAddRows="False" Background="{DynamicResource WrapPanelBackground}" Margin="5">
-                <DataGrid.Resources>
-                    <Style TargetType="DataGridRow">
-                        <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
-                    </Style>
-                </DataGrid.Resources>
+            </DataGrid><!--Background="{DynamicResource WrapPanelBackground}"-->
+            <DataGrid Name="RightTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="False" CanUserAddRows="False"  Margin="5" MouseDoubleClick="DataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="name">
                         <DataGridTemplateColumn.CellTemplate>
